@@ -217,9 +217,9 @@
   </header>
 
   <!-- Dashboard Content -->
-  <main class="flex-1 p-margin-desktop max-w-max-width mx-auto w-full flex gap-gutter">
+  <main class="flex-1 p-margin-mobile md:p-margin-desktop max-w-max-width mx-auto w-full flex flex-col lg:flex-row gap-gutter">
 <!-- Left Sidebar: Cameras -->
-<aside class="w-72 flex flex-col gap-gutter shrink-0">
+<aside class="w-full lg:w-72 flex flex-col gap-gutter shrink-0">
 <div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
 <div class="flex justify-between items-center mb-4">
 <h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface">Camera 1</h2>
@@ -246,7 +246,7 @@
 </div>
 </aside>
 <!-- Center: 3D Floor Plan -->
-<section class="flex-1 bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding relative overflow-hidden flex flex-col">
+<section class="flex-1 bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding relative overflow-hidden flex flex-col min-h-[480px]">
 <div class="flex justify-between items-center mb-6 z-10 relative">
 <h2 class="font-headline-md text-headline-md text-on-surface dark:text-inverse-on-surface">Home Overview</h2>
 <div class="flex gap-2">
@@ -277,7 +277,7 @@
 </div>
 </section>
 <!-- Right Sidebar: Security & Activity -->
-<aside class="w-80 flex flex-col gap-gutter shrink-0">
+<aside class="w-full lg:w-80 flex flex-col gap-gutter shrink-0">
 <!-- Security Overview -->
 <div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
 <h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface mb-6">Security Systems</h2>
