@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartHome - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e1e3e4",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed": "#fedeaa",
+                        "on-background": "#191c1d",
+                        "secondary-container": "#8455ef",
+                        "surface-container": "#edeeef",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "inverse-primary": "#8bd6b4",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-fixed-variant": "#00513a",
+                        "surface": "#f8f9fa",
+                        "surface-tint": "#1b6b4f",
+                        "on-primary-fixed": "#002115",
+                        "on-surface-variant": "#3f4943",
+                        "secondary-fixed": "#e9ddff",
+                        "on-tertiary-fixed-variant": "#58431d",
+                        "primary-fixed-dim": "#8bd6b4",
+                        "on-secondary-fixed": "#23005c",
+                        "on-tertiary-fixed": "#271900",
+                        "on-tertiary-container": "#796138",
+                        "surface-dim": "#d9dadb",
+                        "outline-variant": "#bec9c2",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary": "#ffffff",
+                        "primary": "#1b6b4f",
+                        "on-surface": "#191c1d",
+                        "primary-container": "#a7f3d0",
+                        "surface-bright": "#f8f9fa",
+                        "on-error-container": "#93000a",
+                        "secondary": "#6b38d4",
+                        "inverse-surface": "#2e3132",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary": "#725b32",
+                        "background": "#f8f9fa",
+                        "primary-fixed": "#a6f2cf",
+                        "tertiary-fixed-dim": "#e1c290",
+                        "tertiary-container": "#ffdfab",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#247156",
+                        "outline": "#6f7973",
+                        "secondary-fixed-dim": "#d0bcff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "max-width": "1440px",
+                        "card-padding": "24px",
+                        "gutter": "20px",
+                        "base-unit": "8px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Montserrat"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "title-sm": ["Inter"],
+                        "body-base": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-base": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-panel {
+            background: rgba(30, 32, 33, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .card-shadow { box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.05); }
+        .neumorphic-active {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05), inset -2px -2px 5px rgba(255,255,255,0.8);
+        }
+        .dark .neumorphic-active {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3), inset -2px -2px 5px rgba(255,255,255,0.05);
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #d9dadb;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background dark:bg-on-background text-on-surface dark:text-inverse-on-surface min-h-screen flex">
+<!-- Sidebar Overlay for Mobile -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+
+<!-- SideNavBar -->
+<aside id="sidebar" class="h-screen w-72 fixed left-0 top-0 bg-surface-container-low dark:bg-inverse-surface shadow-sm flex flex-col py-base-unit z-50 transition-transform duration-300 -translate-x-full md:translate-x-0">
+  <div class="px-6 py-6 flex items-center gap-3 border-b border-surface-variant/30 dark:border-outline-variant/20">
+    <div class="w-10 h-10 rounded-xl bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary flex items-center justify-center shadow-sm">
+      <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">home</span>
+    </div>
+    <div>
+      <h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed leading-none">SmartHome</h1>
+      <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant mt-1">Living Room</p>
+    </div>
+  </div>
+  <div class="flex-1 overflow-y-auto mt-6">
+    <ul class="flex flex-col gap-1 px-2">
+      <li>
+        <a id="nav-dashboard" class="bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-semibold flex items-center gap-3 px-4 py-3 mx-2 rounded-xl scale-98 active:scale-95 transition-all duration-200 shadow-sm" href="home_dashboard.html">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+          <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a id="nav-cameras" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest flex items-center gap-3 px-4 py-3 mx-2 rounded-xl scale-98 active:scale-95 transition-all duration-200" href="camera_management.html">
+          <span class="material-symbols-outlined">videocam</span>
+          <span class="font-label-md text-label-md">Cameras</span>
+        </a>
+      </li>
+      <li>
+        <a id="nav-climate" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest flex items-center gap-3 px-4 py-3 mx-2 rounded-xl scale-98 active:scale-95 transition-all duration-200" href="climate_energy.html">
+          <span class="material-symbols-outlined">thermostat</span>
+          <span class="font-label-md text-label-md">Climate</span>
+        </a>
+      </li>
+      <li>
+        <a id="nav-lighting" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest flex items-center gap-3 px-4 py-3 mx-2 rounded-xl scale-98 active:scale-95 transition-all duration-200" href="lighting_controls.html">
+          <span class="material-symbols-outlined">lightbulb</span>
+          <span class="font-label-md text-label-md">Lighting</span>
+        </a>
+      </li>
+      <li>
+        <a id="nav-security" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-surface-container-highest flex items-center gap-3 px-4 py-3 mx-2 rounded-xl scale-98 active:scale-95 transition-all duration-200" href="access_security.html">
+          <span class="material-symbols-outlined">security</span>
+          <span class="font-label-md text-label-md">Security</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="mt-auto px-6 py-4 border-t border-surface-variant/30 dark:border-outline-variant/20 flex items-center gap-3">
+    <img alt="User Profile" class="w-10 h-10 rounded-full object-cover border border-outline-variant dark:border-outline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyvobcGPcFtZCVdI_nroCrvqO9OGZwgCokyA3H9tpWXImJnPqSp9gCSQ5SI52SXuc4RyMwV94FwRPa_Ca3zZKIuY18fAw2anqiKY-dIo5cpIrkx-XTuUUmpC8AcEXAk3qRyEzICnM-jNlI-kG1lUODLHNuru1NWlcRWirWvmAQAXX1ENjFOGigR2i8PRwLg4M4-GGy4oDOTGi5mNbNs29rSl2P9QmA7HtFNvudvGdHiLFwO2gFTuWgFMEY3KM3AGa6oo_rly_GXvDc"/>
+    <div>
+      <p class="font-label-md text-label-md text-on-surface dark:text-on-primary-container font-semibold leading-none">Jane Doe</p>
+      <p class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant mt-1">Admin</p>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-h-screen md:pl-72">
+  <!-- TopNavBar -->
+  <header class="bg-surface dark:bg-on-background sticky top-0 z-40 w-full px-margin-desktop py-4 flex justify-between items-center border-b border-surface-variant/30 dark:border-outline-variant/20">
+    <div class="flex items-center gap-4">
+      <button id="menu-btn" class="md:hidden text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer p-2 rounded-full hover:bg-surface-variant">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <h2 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight">Dashboard</h2>
+    </div>
+    <div class="flex items-center gap-4">
+      <!-- Search Bar -->
+      <div class="hidden sm:flex items-center gap-2 bg-surface-container-low dark:bg-inverse-surface rounded-full px-4 py-1.5 w-64 shadow-inner">
+        <span class="material-symbols-outlined text-on-surface-variant dark:text-surface-variant text-sm">search</span>
+        <input class="bg-transparent border-none outline-none text-on-surface dark:text-inverse-on-surface font-label-md text-label-md w-full focus:ring-0 p-0 ml-1" placeholder="Search devices..." type="text"/>
+      </div>
+      <!-- Theme Toggle -->
+      <button id="theme-toggle" class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer p-2 rounded-full hover:bg-surface-variant">
+        <span id="theme-toggle-dark-icon" class="material-symbols-outlined">dark_mode</span>
+        <span id="theme-toggle-light-icon" class="material-symbols-outlined hidden">light_mode</span>
+      </button>
+      <!-- Notifications -->
+      <button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer p-2 rounded-full hover:bg-surface-variant">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      <!-- Account Profile -->
+      <button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer p-2 rounded-full hover:bg-surface-variant">
+        <span class="material-symbols-outlined">account_circle</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Dashboard Content -->
+  <main class="flex-1 p-margin-desktop max-w-max-width mx-auto w-full flex gap-gutter">
+<!-- Left Sidebar: Cameras -->
+<aside class="w-72 flex flex-col gap-gutter shrink-0">
+<div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface">Camera 1</h2>
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+</div>
+<div class="relative rounded-xl overflow-hidden aspect-video bg-surface-container-low dark:bg-on-background group cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A live security camera feed showing a bright, modern front porch of a house during the day, clean architectural lines, soft natural lighting, light mode aesthetic, crisp high definition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMtq6aIAsLmbizNyRt2KrJV4Pp04YbDzjNTkNL4zKnC4c60cOR0Bw4ZU3axaE0szl7Dg2O10v5HpOCfoy8oIjdoPHPUwuAoqc5_ZwLG0yYh_Idjscpvz_oBQR0FknfNIAmp_PzWOnkxeRUmTHioMEzPWD6qcia-KtfFv4LTWKJNK4hSFlHibQqt-5WSTUKF0Hj3LDUA1KyP9KezxIckNbo0AAYg1QkP8PsqmXG3jb_s1H6JlB_U8sKUaqbAkd_0ob_-HBxMM-s-Cmv"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface">Camera 2</h2>
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+</div>
+<div class="relative rounded-xl overflow-hidden aspect-video bg-surface-container-low dark:bg-on-background group cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A live security camera feed showing a sunlit modern backyard with a pristine green lawn and patio furniture, daytime, soft lighting, light mode aesthetic, clean and safe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG_7X2TK0L6yUXWblQc4_lBRuxa9gHaC866-8IfHFr9nKDl1hD2SfJNxEqt00BGyV41yL3HQ4N068oLh3oVGiIWB81OVPnRM8C3xPZbGttpyXiMsafQ7It9TLNJySB4a0SK5wB1SXEyE6HQmMf8Y5Ah00qSlTlI6yy_ccjcxSGBPfmZ57coSZ_sykf5DWKMADtK2rS3bzQVIV9scM4NeBppwj2j4EdoSbMATZynhIqKChsDRyj1msDq6W1ywJSGby0rJhF9F_jVjCe"/>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Center: 3D Floor Plan -->
+<section class="flex-1 bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-center mb-6 z-10 relative">
+<h2 class="font-headline-md text-headline-md text-on-surface dark:text-inverse-on-surface">Home Overview</h2>
+<div class="flex gap-2">
+<button class="floor-btn px-4 py-2 rounded-full bg-surface-container-low dark:bg-on-background text-on-surface dark:text-inverse-on-surface font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors" data-floor="1">1F</button>
+<button class="floor-btn px-4 py-2 rounded-full bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-label-md text-label-md" data-floor="2">2F</button>
+</div>
+</div>
+<div class="flex-1 relative bg-surface-container-low dark:bg-on-background rounded-xl overflow-hidden flex items-center justify-center group">
+<!-- Conceptual placeholder for the 3D model, using an image for now as requested by typical constraints, but styled like an interactive canvas -->
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-normal" data-alt="A beautifully rendered 3D isometric floor plan of a modern, open-concept home. The rendering is bright and airy with soft shadows and a light color palette featuring pristine whites and subtle mint green accents. The scene is illuminated by soft overhead lighting, presenting a clean, technological yet comfortable living space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMAeEf6RWk7fXMfLNTODtK3A3mKPJFG0SqGIfNVSZgxHOLPw2JSAlqhPC2TY1rSujCYEHAHosWq_gd9f6mov3UYh4gwre7nJpQaSTOB5bNl0dG7rR7JYw575LD4PTqcKQWPXECxWKXhSr8iDnJLOJbl4e2Rkm5NRsG2I0hUpn5XkTMccjyiY4WtpZFa_IR0gv_5Or22bX_XKdg5xPpZlMls-XQesXSxMS3_iTfEbbLNg7G_rAJ1W8iOWQ8tzWU-_OiEw3DQepisle0"/>
+<!-- Interactive Hotspots -->
+<div class="absolute top-[30%] left-[40%] group-hover:scale-110 transition-transform">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-primary dark:text-primary-fixed shadow-lg cursor-pointer hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-white dark:bg-inverse-surface px-3 py-1 rounded shadow-md text-xs font-semibold text-on-surface dark:text-inverse-on-surface whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">Living Room</div>
+</div>
+<div class="absolute top-[60%] left-[20%] group-hover:scale-110 transition-transform">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-secondary dark:text-secondary-fixed-dim shadow-lg cursor-pointer hover:bg-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="thermostat">thermostat</span>
+</div>
+</div>
+<div class="absolute top-[40%] right-[30%] group-hover:scale-110 transition-transform">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg cursor-pointer hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Sidebar: Security & Activity -->
+<aside class="w-80 flex flex-col gap-gutter shrink-0">
+<!-- Security Overview -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
+<h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface mb-6">Security Systems</h2>
+<div class="flex items-center justify-center mb-6">
+<!-- Neumorphic toggle / status indicator -->
+<div class="w-32 h-32 rounded-full neumorphic-active flex flex-col items-center justify-center gap-2 relative">
+<div class="absolute inset-2 rounded-full border-4 border-primary-container opacity-50"></div>
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="shield">shield</span>
+<span class="font-label-md text-label-md text-primary font-bold">Armed</span>
+</div>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low dark:bg-on-background p-3 rounded-xl mb-3">
+<span class="font-body-base text-body-base text-on-surface dark:text-inverse-on-surface">Front Door</span>
+<div class="switch-toggle w-12 h-6 bg-primary-container rounded-full relative cursor-pointer" data-active="true">
+<div class="switch-handle absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all"></div>
+</div>
+</div>
+<div class="flex justify-between items-center bg-surface-container-low dark:bg-on-background p-3 rounded-xl">
+<span class="font-body-base text-body-base text-on-surface dark:text-inverse-on-surface">Back Door</span>
+<div class="switch-toggle w-12 h-6 bg-surface-variant rounded-full relative cursor-pointer" data-active="false">
+<div class="switch-handle absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-all"></div>
+</div>
+</div>
+</div>
+<!-- Family Avatars -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding">
+<h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface mb-4">Family</h2>
+<div class="flex gap-4">
+<div class="flex flex-col items-center gap-2 cursor-pointer hover:-translate-y-1 transition-transform">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary-container p-0.5" data-alt="A bright, cheerful portrait avatar of a young woman named Sarah in a brightly lit modern setting, soft lighting, light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU1jG_JzyQQaSTMldV3FE-0zr-QJ2yc5_YPF_mIyhRjGdOFn667D9CUjTwtl8AJ0zNHhMnl-9AYaq3p8s8_FdYX0krh6T-28eTSAJmHI_glrvmuMfuv5CPSDEA4WbFibDegOFLSfJ7M-aaibFkiXRuawTc18T1BzDC9v9agNiFKnDPmx_q6XpYSuyLD_0WYYJ43dXcH2EVF4Yk9NW9bwluBNIYAhXxdTKckdhpzW74mVSJgQxjRI-6YZLFobZZLVuqqo7mZJbmzlqx"/>
+<span class="font-label-sm text-label-sm text-on-surface dark:text-inverse-on-surface">Sarah</span>
+</div>
+<div class="flex flex-col items-center gap-2 cursor-pointer hover:-translate-y-1 transition-transform">
+<img class="w-12 h-12 rounded-full object-cover opacity-60" data-alt="A clean, professional portrait avatar of a man named John in a well-lit modern home office, light mode aesthetic, approachable look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBahpA8jtaJyxhbP47LEk2GteH_AZ65MKj7KgDZLhnwe6dkdYv_vdVPDsfa23jKpA7oxF0hxEUx4bK17iPA6_M18D1VgvPBrHvO5-zyjRpmVAgiY_EMdSEAMA__DB4gkJ8PRdMHYG1b3om_OEgLMIiQeu4oHR3MUq2WO5hPzh7kkLrxwsJxyDlEAzVcfB9UE1NM0JXlQH2J2zZVhh_-_pdqhRplhrzQL8YnfC1Z9uh5pLM1_LJcHFIY1HH4gHbFmJW8rQRSLbtioLH9"/>
+<span class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant">John</span>
+</div>
+<div class="flex flex-col items-center gap-2 cursor-pointer hover:-translate-y-1 transition-transform">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary-container p-0.5" data-alt="A cute portrait avatar of a young girl named Emma smiling, in a bright sunny room, light mode aesthetic, soft and approachable style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDflSJmJYgaJp3KjUCfsnkd5tN3UhJkplWAGr6bf8W4lVLxlDH0d5BLNIOw0jiZoSUyrTHOwQamykUhBzFu4Ki4vE4trfQv2kr2os8DmnFITQqLiGYfFT4v4fh4MT2iMOb1W4it8I93c5hEo-5xdLQkOVGyJIWIZyCJM3nGrFYLHpdfZ3JBoljDLf91G28XfCDcD9IiKje-XH6JlkoSkL-JzQDQOjFVUTzt0Dq7v_j4sWfS9Jau-jV_JDgCZwFk9NQU4Ss4XLQYbwbO"/>
+<span class="font-label-sm text-label-sm text-on-surface dark:text-inverse-on-surface">Emma</span>
+</div>
+</div>
+</div>
+<!-- Activity Timeline -->
+<div class="bg-surface-container-lowest dark:bg-inverse-surface rounded-[24px] card-shadow p-card-padding flex-1">
+<h2 class="font-title-sm text-title-sm text-on-surface dark:text-inverse-on-surface mb-6">Recent Activity</h2>
+<div class="relative border-l border-surface-variant dark:border-outline-variant/30 ml-3 space-y-6">
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-primary-container rounded-full -left-[6.5px] top-1 border-2 border-white dark:border-inverse-surface"></div>
+<p class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface">Back Door Locked</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant mt-1">07:00 AM</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-surface-variant rounded-full -left-[6.5px] top-1 border-2 border-white dark:border-inverse-surface"></div>
+<p class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface">Motion Detected: Porch</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant mt-1">06:45 AM</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute w-3 h-3 bg-secondary-container rounded-full -left-[6.5px] top-1 border-2 border-white dark:border-inverse-surface"></div>
+<p class="font-label-md text-label-md text-on-surface dark:text-inverse-on-surface">Thermostat set to 72°</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-surface-variant mt-1">06:30 AM</p>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+
+<script>
+  // Sidebar Toggle Logic for Mobile
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+  if (menuBtn && sidebar && sidebarOverlay) {
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarOverlay.classList.remove('hidden');
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    });
+  }
+
+  // Dark Mode Toggle Logic
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const darkIcon = document.getElementById('theme-toggle-dark-icon');
+  const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+  // Check current theme status
+  if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+    document.documentElement.classList.remove('light');
+    if (lightIcon) lightIcon.classList.remove('hidden');
+    if (darkIcon) darkIcon.classList.add('hidden');
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
+    if (lightIcon) lightIcon.classList.add('hidden');
+    if (darkIcon) darkIcon.classList.remove('hidden');
+  }
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', function() {
+      // toggle icons inside button
+      if (darkIcon && lightIcon) {
+        darkIcon.classList.toggle('hidden');
+        lightIcon.classList.toggle('hidden');
+      }
+
+      // if set via local storage previously
+      if (localStorage.getItem('color-theme')) {
+        if (localStorage.getItem('color-theme') === 'light') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          localStorage.setItem('color-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+          localStorage.setItem('color-theme', 'light');
+        }
+      } else {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+          localStorage.setItem('color-theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          localStorage.setItem('color-theme', 'dark');
+        }
+      }
+    });
+  }
+
+  // Floor Button Toggle Logic
+  const floorBtns = document.querySelectorAll('.floor-btn');
+  floorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      floorBtns.forEach(b => {
+        b.className = "floor-btn px-4 py-2 rounded-full bg-surface-container-low dark:bg-on-background text-on-surface dark:text-inverse-on-surface font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-surface-container-high transition-colors";
+      });
+      btn.className = "floor-btn px-4 py-2 rounded-full bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-label-md text-label-md";
+    });
+  });
+
+  // Switch Toggle Logic
+  document.querySelectorAll('.switch-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const active = toggle.getAttribute('data-active') === 'true';
+      const handle = toggle.querySelector('.switch-handle');
+      if (active) {
+        toggle.setAttribute('data-active', 'false');
+        toggle.classList.remove('bg-primary-container');
+        toggle.classList.add('bg-surface-variant');
+        handle.classList.remove('right-1');
+        handle.classList.add('left-1');
+      } else {
+        toggle.setAttribute('data-active', 'true');
+        toggle.classList.remove('bg-surface-variant');
+        toggle.classList.add('bg-primary-container');
+        handle.classList.remove('left-1');
+        handle.classList.add('right-1');
+      }
+    });
+  });
+</script>
+</body></html>
